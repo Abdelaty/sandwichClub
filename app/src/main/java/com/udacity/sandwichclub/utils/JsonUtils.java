@@ -1,0 +1,74 @@
+package com.udacity.sandwichclub.utils;
+
+import com.udacity.sandwichclub.model.Sandwich;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class JsonUtils {
+    private final static String TAG = JsonUtils.class.getSimpleName();
+
+    private final static String NAME_CODE = "name";
+    private final static String MAIN_NAME_CODE = "mainName";
+    private final static String ALSO_KNOWN_AS_CODE = "alsoKnownAs";
+    private final static String PLACE_OF_ORIGIN_CODE = "placeOfOrigin";
+    private final static String DESCRIPTION_CODE = "description";
+    private final static String IMAGE_CODE = "image";
+    private final static String INGREDIENTS_CODE = "ingredients";
+
+
+    public static Sandwich parseSandwichJson(String json) {
+        try {
+            JSONObject mainJsonObject = new JSONObject(json);
+
+            JSONObject name = mainJsonObject.getJSONObject(NAME_CODE);
+            String mainName = name.getString(MAIN_NAME_CODE);
+
+            JSONArray JSONArrayAlsoKnownAs = name.getJSONArray(ALSO_KNOWN_AS_CODE);
+            List<String> alsoKnownAs = jsonArrayValuesToList(JSONArrayAlsoKnownAs);
+
+            String placeOfOrigin = mainJsonObject.optString(PLACE_OF_ORIGIN_CODE);
+
+            String description = mainJsonObject.getString(DESCRIPTION_CODE);
+
+            String image = mainJsonObject.getString(IMAGE_CODE);
+
+            JSONArray JSONArrayIngredients = mainJsonObject.getJSONArray(INGREDIENTS_CODE);
+            List<String> ingredients = jsonArrayValuesToList(JSONArrayIngredients);
+
+            return new Sandwich(mainName, alsoKnownAs, placeOfOrigin, description, image, ingredients);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    /**
+     * This method adds the JsonArray Values in to a List<String> and returns that List.
+     *
+     * @param jsonArray
+     * @return myList
+     */
+
+
+    private static List<String> jsonArrayValuesToList(JSONArray jsonArray) {
+        List<String> myList = new ArrayList<String>();
+
+        // Adding each JSONArrayValues into myList.
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                myList.add(jsonArray.getString(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return myList;
+    }
+}
