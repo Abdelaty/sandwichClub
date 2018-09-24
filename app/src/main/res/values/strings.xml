@@ -14,6 +14,7 @@
     <string name="detail_error_message">Sandwich data not available</string>
     <string name="error_message">Failed to download the data, Please try again.</string>
     <string name="no_origin">No Origin</string>
+    <string name="data_is_not_avilable">Data is not available.</string>
 
     <string-array name="sandwich_names">
         <item>Ham and cheese sandwich</item>

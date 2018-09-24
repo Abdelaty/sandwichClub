@@ -17,9 +17,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
     private TextView mAlsoKnownTv;
-    private TextView mAlsoKnownLabel;
     private TextView mOriginTv;
-    private TextView mOriginLabel;
     private TextView mDescriptionTv;
     private TextView mIngredientTv;
 
@@ -27,8 +25,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        mAlsoKnownLabel = findViewById(R.id.alsoKnownAs_label);
-        mOriginLabel = findViewById(R.id.placeOfOrigin_label);
+
         mAlsoKnownTv = findViewById(R.id.also_known_tv);
         mOriginTv = findViewById(R.id.origin_tv);
         mDescriptionTv = findViewById(R.id.description_tv);
@@ -59,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
 
         populateUI(sandwich);
         Picasso.with(this)
-                .load(sandwich.getImage())
+                .load(sandwich.getImage()).error(R.drawable.no_image)
                 .into(ingredientsIv);
     }
 
@@ -82,14 +79,13 @@ public class DetailActivity extends AppCompatActivity {
             }
             mAlsoKnownTv.setText(stringBuilder.toString());
         } else {
-            mAlsoKnownTv.setVisibility(View.GONE);
-            mAlsoKnownLabel.setVisibility(View.GONE);
+            mAlsoKnownTv.setText(R.string.data_is_not_avilable);
+
         }
 
         // set Text to originTv
         if (sandwich.getPlaceOfOrigin().isEmpty()) {
-            mOriginTv.setVisibility(View.GONE);
-            mOriginLabel.setVisibility(View.GONE);
+            mOriginTv.setText(R.string.data_is_not_avilable);
         } else {
             mOriginTv.setText(sandwich.getPlaceOfOrigin());
         }
